@@ -17,9 +17,16 @@ const PostForm = () => {
       const data = proxy.readQuery({
         query: FETCH_POSTS_QUERY,
       });
-      data.getPosts = [result.data.getPost, ...data.getPosts];
-      proxy.writeQuery({ query: FETCH_POSTS_QUERY, data });
+      //data.getPosts = [result.data.createPost, ...data.getPosts];//this didn't work//data.getPosts is a read-only property//
+      //proxy.writeQuery({ query: FETCH_POSTS_QUERY, data });//rewritten below to assign data.getPost to new variable getPosts//
+      proxy.writeQuery({
+        query: FETCH_POSTS_QUERY,
+        data: { getPosts: [result.data.createPost, ...data.getPosts] },
+      });
       values.body = "";
+    },
+    onError(err) {
+      return err;
     },
   });
 
@@ -28,20 +35,30 @@ const PostForm = () => {
   }
 
   return (
-    <Form onSubmit={onSubmit}>
-      <h2>Create a Post:</h2>
-      <Form.Field>
-        <Form.Input
-          placeholder="connect us"
-          name="body"
-          onChange={onChange}
-          value={values.body}
-        />
-        <Button type="submit" color="teal">
-          Submit
-        </Button>
-      </Form.Field>
-    </Form>
+    <>
+      <Form onSubmit={onSubmit}>
+        <h2>Create a Post:</h2>
+        <Form.Field>
+          <Form.Input
+            placeholder="connect us"
+            name="body"
+            onChange={onChange}
+            value={values.body}
+            error={error ? true : false}
+          />
+          <Button type="submit" color="teal">
+            Submit
+          </Button>
+        </Form.Field>
+      </Form>
+      {error && (
+        <div className="ui error message" style={{ marginBottom: "20px" }}>
+          <ul className="list">
+            <li>{error.graphQLErrors[0].message}</li>
+          </ul>
+        </div>
+      )}
+    </>
   );
 };
 
