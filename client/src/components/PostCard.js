@@ -4,6 +4,7 @@ import { Card, Icon, Label, Image, Button } from "semantic-ui-react";
 import moment from "moment";
 import { AuthContext } from "../context/Auth";
 import LikeButton from "./LikeButton";
+import DeleteButton from "../pages/DeleteButton";
 
 //below we destructure the props and assign them to a key 'post'//
 const PostCard = ({
@@ -44,16 +45,7 @@ const PostCard = ({
             {commentCount}
           </Label>
         </Button>
-        {user && user.username === username && (
-          <Button
-            as="div"
-            color="red"
-            floated="right"
-            onClick={() => console.log("Delete Post")}
-          >
-            <Icon name="trash" style={{ margin: 0 }} />
-          </Button>
-        )}
+        {user && user.username === username && <DeleteButton postId={id} />}
       </Card.Content>
     </Card>
   );
