@@ -18,7 +18,7 @@ const PostForm = () => {
         query: FETCH_POSTS_QUERY,
       });
       //data.getPosts = [result.data.createPost, ...data.getPosts];//this didn't work//data.getPosts is a read-only property//
-      //proxy.writeQuery({ query: FETCH_POSTS_QUERY, data });//rewritten below to assign data.getPost to new variable getPosts//
+      //proxy.writeQuery({ query: FETCH_POSTS_QUERY, data });//rewritten below to assign data.getPosts to new variable getPosts//
       proxy.writeQuery({
         query: FETCH_POSTS_QUERY,
         data: { getPosts: [result.data.createPost, ...data.getPosts] },
